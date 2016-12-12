@@ -1,0 +1,24 @@
+#For Mac developers
+.DS_Store
+
+# Visual Studio plugin
+Assets/UnityVS*
+ 
+[Oo]bj/
+[Tt]emp/
+[Ll]ibrary
+[Bb]uilds/
+[Bb]uild/
+
+#These are files in the root folder of the project
+*.tmproj
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.pidb
+*.userprefs
+*.orig
+# emacs backup buffer
+*~
