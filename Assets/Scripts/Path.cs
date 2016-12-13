@@ -14,6 +14,7 @@ public class Path : MonoBehaviour {
 	int pointCount = 0;
 	Color startColor;
 	Sound mySound;
+	GameObject vfx;
 
 	public static void init_static(){
 		allPaths = new Dictionary<Color, List<Path>> ();
@@ -28,7 +29,21 @@ public class Path : MonoBehaviour {
 
 		// Start playing sound
 		print("Play New Sound");
-		mySound = AudioManager.Main.PlayNewSound(Main.getAudioIdForColor(col), true);
+		string audioId = Main.getAudioIdForColor (col);
+		mySound = AudioManager.Main.PlayNewSound(audioId, true);
+
+		if (audioId == "Audio/sound_clip_1") {
+			vfx = Instantiate (Resources.Load ("VFX/vfx_1"), Vector3.zero, Quaternion.identity) as GameObject;
+		} else if (audioId == "Audio/sound_clip_2") {
+			vfx = Instantiate (Resources.Load ("VFX/vfx_2"), Vector3.zero, Quaternion.identity) as GameObject;
+		} else if (audioId == "Audio/sound_clip_3") {
+			vfx = Instantiate (Resources.Load ("VFX/vfx_3"), Vector3.zero, Quaternion.identity) as GameObject;
+		} else if (audioId == "Audio/sound_clip_4") {
+			vfx = Instantiate (Resources.Load ("VFX/vfx_4"), Vector3.zero, Quaternion.identity) as GameObject;
+		} else if (audioId == "Audio/sound_clip_5") {
+			vfx = Instantiate (Resources.Load ("VFX/vfx_5"), Vector3.zero, Quaternion.identity) as GameObject;
+		}
+		vfx.transform.SetParent (transform);
 
 		initialized = true;
 
@@ -55,6 +70,7 @@ public class Path : MonoBehaviour {
 				line.SetPosition (pointCount - 1, pos);
 				lastPos = pos;
 			}
+			vfx.transform.position = lastPos;
 
 			yield return null;
 		}
@@ -64,6 +80,8 @@ public class Path : MonoBehaviour {
 	IEnumerator burnDown(){
 		while (pointCount > 0) {
 			line.SetVertexCount (--pointCount);
+
+			vfx.transform.position = lastPos;
 
 //			yield return new WaitForEndOfFrame ();
 			yield return new WaitForSeconds (.25f);
