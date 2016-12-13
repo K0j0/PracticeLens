@@ -137,7 +137,7 @@ public class Main : MonoBehaviour {
 //		cube2.transform.localRotation = Quaternion.Euler(Input.acceleration.z * 90, 0, Input.acceleration.x * 90);
 //		cube2.transform.localRotation = Quaternion.Euler(0, 0, Input.acceleration.x * 90);
 
-		cube2.transform.rotation = (Input.gyro.attitude * Quaternion.Inverse(baseRotation)) * Quaternion.Inverse(baseRotation);
+		cube2.transform.rotation = Input.gyro.attitude * baseRotation;
 
 //		wall.transform.rotation = baseRotation * Quaternion.AngleAxis(deviceCam.videoRotationAngle, Vector3.up);
 	}
