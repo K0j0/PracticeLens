@@ -37,9 +37,9 @@ public class Path : MonoBehaviour {
 		} else if (audioId == "Audio/sound_clip_2") {
 			vfx = Instantiate (Resources.Load ("VFX/vfx_2"), Vector3.zero, Quaternion.identity) as GameObject;
 		} else if (audioId == "Audio/sound_clip_3") {
-			vfx = Instantiate (Resources.Load ("VFX/vfx_3"), Vector3.zero, Quaternion.identity) as GameObject;
+			vfx = Instantiate (Resources.Load ("VFX/vfx_1"), Vector3.zero, Quaternion.identity) as GameObject;
 		} else if (audioId == "Audio/sound_clip_4") {
-			vfx = Instantiate (Resources.Load ("VFX/vfx_4"), Vector3.zero, Quaternion.identity) as GameObject;
+			vfx = Instantiate (Resources.Load ("VFX/vfx_2"), Vector3.zero, Quaternion.identity) as GameObject;
 		} else if (audioId == "Audio/sound_clip_5") {
 			vfx = Instantiate (Resources.Load ("VFX/vfx_5"), Vector3.zero, Quaternion.identity) as GameObject;
 		}
@@ -55,7 +55,7 @@ public class Path : MonoBehaviour {
 		while (Input.touchCount == 1 && onSameColor) {			
 			// get world pos of finger
 			Vector3 pos = Input.touches [0].position;
-			pos = cam.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 5));
+			pos = cam.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 7.5f));
 
 			// Stop path on color change of projected point
 			if (Main.lastColorPressed != startColor) {
