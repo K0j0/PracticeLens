@@ -43,6 +43,12 @@ ModelImporter:
     4300006: Icosphere_MeshPart3
     4300008: Icosphere_MeshPart4
     4300010: Icosphere_MeshPart5
+    6400000: Icosphere_MeshPart0
+    6400002: Icosphere_MeshPart1
+    6400004: Icosphere_MeshPart2
+    6400006: Icosphere_MeshPart3
+    6400008: Icosphere_MeshPart4
+    6400010: Icosphere_MeshPart5
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,7 +75,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

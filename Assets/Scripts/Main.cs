@@ -6,7 +6,7 @@ public class Main : MonoBehaviour {
 
 	public Transform camParent;
 	public Transform camLead;
-	public GameObject cube1;
+//	public GameObject cube1;
 	public GameObject cube2;
 
 	public GameObject plane;

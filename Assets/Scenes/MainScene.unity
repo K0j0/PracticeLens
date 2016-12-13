@@ -1547,7 +1547,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camParent: {fileID: 1483431326}
   camLead: {fileID: 1561105706}
-  cube1: {fileID: 0}
   cube2: {fileID: 2036028760}
   plane: {fileID: 1123693300}
 --- !u!4 &1428930728
@@ -1956,6 +1955,7 @@ GameObject:
   - 33: {fileID: 2005347221}
   - 135: {fileID: 2005347220}
   - 23: {fileID: 2005347219}
+  - 64: {fileID: 2005347223}
   m_Layer: 0
   m_Name: BeachBallBubble_Physics
   m_TagString: Untagged
@@ -2000,7 +2000,7 @@ SphereCollider:
   m_GameObject: {fileID: 2005347218}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -2024,6 +2024,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!64 &2005347223
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2005347218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2027747536
 GameObject:
   m_ObjectHideFlags: 0
