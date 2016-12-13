@@ -5,6 +5,7 @@ using System.Collections;
 public class Main : MonoBehaviour {
 
 	public Transform camParent;
+	public Transform camLead;
 	public GameObject cube1;
 	public GameObject cube2;
 
@@ -37,6 +38,7 @@ public class Main : MonoBehaviour {
 		print("Gyro Start: (" + (baseRotation.eulerAngles.x * Mathf.Rad2Deg).ToString("F3") + ", " +
 								(baseRotation.eulerAngles.y * Mathf.Rad2Deg).ToString("F3") + ", " +
 								(baseRotation.eulerAngles.z * Mathf.Rad2Deg).ToString("F3") + ")");
+
 	}
 
 	void makeMesh(){
@@ -134,7 +136,7 @@ public class Main : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 //		print (Input.acceleration.ToString("F3"));
-		print("Gyro Update: (" + (Input.gyro.attitude.eulerAngles.ToString()));
+//		print("Gyro Update: (" + (Input.gyro.attitude.eulerAngles.ToString()));
 
 //		cube1.transform.Translate (Input.acceleration.x, 0, -Input.acceleration.z);
 //		cube2.transform.localRotation = Quaternion.Euler(Input.acceleration.z * 90, 0, Input.acceleration.x * 90);
@@ -143,7 +145,31 @@ public class Main : MonoBehaviour {
 		cube2.transform.rotation = Input.gyro.attitude * baseRotation;
 		camParent.rotation = Input.gyro.attitude * baseRotation;
 
-//		wall.transform.rotation = baseRotation * Quaternion.AngleAxis(deviceCam.videoRotationAngle, Vector3.up);
+		// Input
+		if (Input.touchCount > 0) {
+			Vector3 pos = Input.touches [0].position;
+			pos = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, 90));
+
+			Debug.DrawRay (cam.transform.position, pos, Color.red, 5);
+			RaycastHit hit;
+			if (!Physics.Raycast(cam.ScreenPointToRay(pos), out hit))
+				return;
+
+//			print ("here 1");
+			Renderer rend = hit.transform.GetComponent<Renderer>();
+			Collider meshCollider = hit.collider as Collider;
+			if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
+				return;
+
+			print ("Here 2");
+			Texture2D tex = rend.material.mainTexture as Texture2D;
+			Vector2 pixelUV = hit.textureCoord;
+			pixelUV.x *= tex.width;
+			pixelUV.y *= tex.height;
+			tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, Color.black);
+			tex.Apply();
+			print ("Hit bubble");
+		}
 	}
 
 	public void ui_RotX(int val){
