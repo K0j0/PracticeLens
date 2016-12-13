@@ -19,19 +19,23 @@ public class Main : MonoBehaviour {
 	void Start() {
 		cam = Camera.main;
 
-//		Input.gyro.enabled = true;
+		Input.gyro.enabled = true;
 		foreach (var cams in WebCamTexture.devices) {
 			print ("[snap] Camera Names: " + cams.name);
 		}
 
-//		deviceCam = new WebCamTexture (WebCamTexture.devices[0].name, 108, 192, 60);
 		deviceCam = new WebCamTexture ();
 		plane.GetComponent<Renderer> ().material.mainTexture = deviceCam;
 
 		deviceCam.Play ();
 
-		// TODO: Dynamically create a mesh that will be size of viewport, assign camera texture to that
 		makeMesh();
+
+		baseRotation = Quaternion.identity;
+//		baseRotation = Input.gyro.attitude;
+		print("Gyro Start: (" + (baseRotation.eulerAngles.x * Mathf.Rad2Deg).ToString("F3") + ", " +
+								(baseRotation.eulerAngles.y * Mathf.Rad2Deg).ToString("F3") + ", " +
+								(baseRotation.eulerAngles.z * Mathf.Rad2Deg).ToString("F3") + ")");
 	}
 
 	void makeMesh(){
@@ -119,7 +123,6 @@ public class Main : MonoBehaviour {
 		wParent = new GameObject("WallParent");
 		wParent.transform.position = r.bounds.center;
 		wall.transform.SetParent (wParent.transform);
-//		wParent.transform.position = new Vector3 (0, 0, camWallWorldZ);
 		wParent.transform.position = new Vector3 (center.x, center.y, camWallWorldZ);
 		wParent.transform.localEulerAngles = new Vector3(0, 0, -90);
 		wall.transform.localEulerAngles = Vector3.zero;
@@ -128,13 +131,13 @@ public class Main : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 //		print (Input.acceleration.ToString("F3"));
-//		print("Gyro: " + Input.gyro.attitude.ToString("F3"));
+		print("Gyro Update: (" + (Input.gyro.attitude.eulerAngles.ToString()));
 
 //		cube1.transform.Translate (Input.acceleration.x, 0, -Input.acceleration.z);
 //		cube2.transform.localRotation = Quaternion.Euler(Input.acceleration.z * 90, 0, Input.acceleration.x * 90);
 //		cube2.transform.localRotation = Quaternion.Euler(0, 0, Input.acceleration.x * 90);
 
-//		cube2.transform.rotation = Input.gyro.attitude;
+		cube2.transform.rotation = (Input.gyro.attitude * Quaternion.Inverse(baseRotation)) * Quaternion.Inverse(baseRotation);
 
 //		wall.transform.rotation = baseRotation * Quaternion.AngleAxis(deviceCam.videoRotationAngle, Vector3.up);
 	}
