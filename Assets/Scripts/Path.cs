@@ -81,10 +81,11 @@ public class Path : MonoBehaviour {
 		while (pointCount > 0) {
 			line.numPositions = --pointCount;
 
-            lastPos = line.GetPosition(pointCount-1);
-			vfx.transform.position = lastPos;
-
-            if(pointCount == 1) vfx.SetActive(false);
+            if(pointCount >= 1)
+            {
+                lastPos = line.GetPosition(pointCount-1);
+			    vfx.transform.position = lastPos;
+            }
 
 //			yield return new WaitForEndOfFrame ();
 			yield return new WaitForSeconds (.25f);
