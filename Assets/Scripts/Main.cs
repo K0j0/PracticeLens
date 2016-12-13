@@ -14,6 +14,10 @@ public class Main : MonoBehaviour {
 	GameObject wParent;
 	Camera cam;
 
+	public Transform centerObj;
+
+	public MeshFilter bubbles;
+
 	Quaternion baseRotation;
 
 	void Start() {
@@ -36,11 +40,18 @@ public class Main : MonoBehaviour {
 		print("Gyro Start: (" + (baseRotation.eulerAngles.x * Mathf.Rad2Deg).ToString("F3") + ", " +
 								(baseRotation.eulerAngles.y * Mathf.Rad2Deg).ToString("F3") + ", " +
 								(baseRotation.eulerAngles.z * Mathf.Rad2Deg).ToString("F3") + ")");
+
+		// Invert sphere normals for bubble?
+		for (int i = 0; i < bubbles.mesh.normals.Length; ++i) {
+			string s = "Before: " + bubbles.mesh.normals [i];
+			s += "\nAfter: " + bubbles.mesh.normals [i];
+			bubbles.mesh.normals [i] = -bubbles.mesh.normals [i];
+		}
 	}
 
 	void makeMesh(){
-		float distFromCam = 20;
-		float camWallWorldZ = 10;
+		float distFromCam = 110; //20;
+		float camWallWorldZ = 100; //10;
 
 		Vector3 tr = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, distFromCam));
 		Vector3 bl = cam.ScreenToWorldPoint(new Vector3(0, 0, distFromCam));
@@ -138,6 +149,7 @@ public class Main : MonoBehaviour {
 //		cube2.transform.localRotation = Quaternion.Euler(0, 0, Input.acceleration.x * 90);
 
 		cube2.transform.rotation = Input.gyro.attitude * baseRotation;
+		centerObj.rotation = Input.gyro.attitude * baseRotation;
 
 //		wall.transform.rotation = baseRotation * Quaternion.AngleAxis(deviceCam.videoRotationAngle, Vector3.up);
 	}
