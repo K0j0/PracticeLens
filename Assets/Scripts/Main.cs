@@ -11,6 +11,7 @@ public class Main : MonoBehaviour {
 	WebCamTexture deviceCam;
 
 	GameObject wall;
+	GameObject wParent;
 	Camera cam;
 
 	Quaternion baseRotation;
@@ -20,7 +21,7 @@ public class Main : MonoBehaviour {
 
 //		Input.gyro.enabled = true;
 		foreach (var cams in WebCamTexture.devices) {
-			print ("Camera Names: " + cams.name);
+			print ("[snap] Camera Names: " + cams.name);
 		}
 
 		deviceCam = new WebCamTexture (WebCamTexture.devices[0].name, 108, 192, 60);
@@ -36,30 +37,45 @@ public class Main : MonoBehaviour {
 	void makeMesh(){
 		Vector3 tr = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, 20));
 		Vector3 bl = cam.ScreenToWorldPoint(new Vector3(0, 0, 20));
-		print ("w: " + cam.pixelWidth + ", h: " + cam.pixelHeight);
-		print ("TR: " + tr);
-		print ("BL: " + bl);
+		print ("[snap] w: " + cam.pixelWidth + ", h: " + cam.pixelHeight);
+		print ("[snap] TR: " + tr);
+		print ("[snap] BL: " + bl);
 
 
 		wall = new GameObject("Wall");
-		wall.transform.position = new Vector3 (0, 0, 10);
+		wall.transform.position = new Vector3 (0, 0, 10); // 10
 //		wall.transform.localScale = new Vector3 (-1, 1, 1);
-		GameObject wParent = new GameObject("WallParent");
-		wParent.transform.localEulerAngles = new Vector3(0, 0, -90);
-//		wall.transform.SetParent (wParent.transform);
-//		wall.transform.localEulerAngles = Vector3.zero;
 
 		Renderer r =  wall.AddComponent<MeshRenderer> ();
 		r.material.mainTexture = deviceCam;
 		Mesh m = wall.AddComponent<MeshFilter> ().mesh;
 		Vector3[] vertices = new Vector3[4];
 
-		float w = tr.x; // tr.x;
-		float h = tr.y; // tr.y;
+//		float w = tr.x;
+//		float h = tr.y;
+//		vertices[0] = new Vector3(bl.x, bl.y, 0);
+//		vertices[1] = new Vector3(tr.x, bl.y, 0);
+//		vertices[2] = new Vector3(bl.x, tr.y, 0);
+//		vertices[3] = new Vector3(tr.x, tr.y, 0);
+
+		/*
+		 * TEST
+		 */ 
+		float w = tr.x - bl.x;
+		float h = tr.y - bl.y;
+		// try swapping width and height
+		float tmp = w;
+		w = h;
+		h = tmp;
+		print ("[snap] W x H " + w + " x " + h);
+
 		vertices[0] = new Vector3(bl.x, bl.y, 0);
-		vertices[1] = new Vector3(w, bl.y, 0);
-		vertices[2] = new Vector3(bl.x, h, 0);
-		vertices[3] = new Vector3(w, h, 0);
+		vertices[1] = new Vector3(bl.x + w, bl.y, 0);
+		vertices[2] = new Vector3(bl.x, bl.y + h, 0);
+		vertices[3] = new Vector3(bl.x + w, bl.y + h, 0);
+		/*
+		 * END TEST
+		 */ 
 
 		m.vertices = vertices;
 
@@ -92,12 +108,21 @@ public class Main : MonoBehaviour {
 		uv[3] = new Vector2(1, 1);
 
 		m.uv = uv;
+
+		// Center the mesh
+		print("[snap] Wall Bounds: " + r.bounds.center + " | " + r.bounds.extents);
+		wParent = new GameObject("WallParent");
+		wParent.transform.position = r.bounds.center;
+		wall.transform.SetParent (wParent.transform);
+		wParent.transform.position = new Vector3 (0, 0, 10);
+		wParent.transform.localEulerAngles = new Vector3(0, 0, -90);
+		wall.transform.localEulerAngles = Vector3.zero;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 //		print (Input.acceleration.ToString("F3"));
-		print("Gyro: " + Input.gyro.attitude.ToString("F3"));
+//		print("Gyro: " + Input.gyro.attitude.ToString("F3"));
 
 //		cube1.transform.Translate (Input.acceleration.x, 0, -Input.acceleration.z);
 //		cube2.transform.localRotation = Quaternion.Euler(Input.acceleration.z * 90, 0, Input.acceleration.x * 90);
@@ -109,14 +134,14 @@ public class Main : MonoBehaviour {
 	}
 
 	public void ui_RotX(int val){
-		wall.transform.Rotate (10 * val, 0, 0);
+		wParent.transform.Rotate (10 * val, 0, 0);
 	}
 
 	public void ui_RotY(int val){
-		wall.transform.Rotate (0, 10 * val, 0);
+		wParent.transform.Rotate (0, 10 * val, 0);
 	}
 
 	public void ui_RotZ(int val){
-		wall.transform.Rotate (0, 0, 10 * val);
+		wParent.transform.Rotate (0, 0, 10 * val);
 	}
 }
