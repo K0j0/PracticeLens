@@ -27,6 +27,7 @@ public class Path : MonoBehaviour {
 		startColor = col;
 
 		// Start playing sound
+		print("Play New Sound");
 		mySound = AudioManager.Main.PlayNewSound(Main.getAudioIdForColor(col), true);
 
 		initialized = true;
@@ -64,10 +65,12 @@ public class Path : MonoBehaviour {
 		while (pointCount > 0) {
 			line.SetVertexCount (--pointCount);
 
-			yield return new WaitForEndOfFrame ();
+//			yield return new WaitForEndOfFrame ();
+			yield return new WaitForSeconds (.25f);
 		}
 
 		mySound.playing = false;
+		mySound.Finish ();
 		Destroy (gameObject);
 	}
 
