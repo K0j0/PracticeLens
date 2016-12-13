@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Main : MonoBehaviour {
 
+	public Transform camParent;
 	public GameObject cube1;
 	public GameObject cube2;
 
@@ -126,6 +127,8 @@ public class Main : MonoBehaviour {
 		wParent.transform.position = new Vector3 (center.x, center.y, camWallWorldZ);
 		wParent.transform.localEulerAngles = new Vector3(0, 0, -90);
 		wall.transform.localEulerAngles = Vector3.zero;
+
+		wParent.transform.SetParent (camParent);
 	}
 	
 	// Update is called once per frame
@@ -138,6 +141,7 @@ public class Main : MonoBehaviour {
 //		cube2.transform.localRotation = Quaternion.Euler(0, 0, Input.acceleration.x * 90);
 
 		cube2.transform.rotation = Input.gyro.attitude * baseRotation;
+		camParent.rotation = Input.gyro.attitude * baseRotation;
 
 //		wall.transform.rotation = baseRotation * Quaternion.AngleAxis(deviceCam.videoRotationAngle, Vector3.up);
 	}
