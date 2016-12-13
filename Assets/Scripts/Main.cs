@@ -24,8 +24,8 @@ public class Main : MonoBehaviour {
 			print ("[snap] Camera Names: " + cams.name);
 		}
 
-		deviceCam = new WebCamTexture (WebCamTexture.devices[0].name, 108, 192, 60);
-//		deviceCam = new WebCamTexture ();
+//		deviceCam = new WebCamTexture (WebCamTexture.devices[0].name, 108, 192, 60);
+		deviceCam = new WebCamTexture ();
 		plane.GetComponent<Renderer> ().material.mainTexture = deviceCam;
 
 		deviceCam.Play ();
@@ -35,15 +35,20 @@ public class Main : MonoBehaviour {
 	}
 
 	void makeMesh(){
-		Vector3 tr = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, 20));
-		Vector3 bl = cam.ScreenToWorldPoint(new Vector3(0, 0, 20));
+		float distFromCam = 20;
+		float camWallWorldZ = 10;
+
+		Vector3 tr = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, distFromCam));
+		Vector3 bl = cam.ScreenToWorldPoint(new Vector3(0, 0, distFromCam));
+		Vector3 center = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth/2, cam.pixelHeight/2, distFromCam));
 		print ("[snap] w: " + cam.pixelWidth + ", h: " + cam.pixelHeight);
 		print ("[snap] TR: " + tr);
 		print ("[snap] BL: " + bl);
+		print ("[snap] center: " + center);
 
 
 		wall = new GameObject("Wall");
-		wall.transform.position = new Vector3 (0, 0, 10); // 10
+		wall.transform.position = new Vector3 (0, 0, camWallWorldZ);
 //		wall.transform.localScale = new Vector3 (-1, 1, 1);
 
 		Renderer r =  wall.AddComponent<MeshRenderer> ();
@@ -114,7 +119,8 @@ public class Main : MonoBehaviour {
 		wParent = new GameObject("WallParent");
 		wParent.transform.position = r.bounds.center;
 		wall.transform.SetParent (wParent.transform);
-		wParent.transform.position = new Vector3 (0, 0, 10);
+//		wParent.transform.position = new Vector3 (0, 0, camWallWorldZ);
+		wParent.transform.position = new Vector3 (center.x, center.y, camWallWorldZ);
 		wParent.transform.localEulerAngles = new Vector3(0, 0, -90);
 		wall.transform.localEulerAngles = Vector3.zero;
 	}
@@ -138,7 +144,8 @@ public class Main : MonoBehaviour {
 	}
 
 	public void ui_RotY(int val){
-		wParent.transform.Rotate (0, 10 * val, 0);
+//		wParent.transform.Rotate (0, 10 * val, 0);
+		wParent.transform.Translate (0, 0, val);
 	}
 
 	public void ui_RotZ(int val){
