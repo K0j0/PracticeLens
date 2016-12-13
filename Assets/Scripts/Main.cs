@@ -16,6 +16,9 @@ public class Main : MonoBehaviour {
 	GameObject wParent;
 	Camera cam;
 
+	static Color _lastColorPressed;
+	public static Color lastColorPressed { get { return _lastColorPressed; } }
+
 	Quaternion baseRotation;
 
 	void Start() {
@@ -171,13 +174,12 @@ public class Main : MonoBehaviour {
 //			tex.SetPixel(, Color.black);
 //			tex.Apply();
 			Color col = tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y);
+			_lastColorPressed = col;
 			print ("Hit bubble: " + col);
 
 			// Make paths
 			if (!Path.isActive) {
 				Path.startPath (pos.normalized * 3, col);
-			} else {
-				Path.addToPath (pos.normalized * 3, col);
 			}
 		} else
 			Path.isActive = false;
