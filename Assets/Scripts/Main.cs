@@ -197,4 +197,27 @@ public class Main : MonoBehaviour {
 	public void ui_RotZ(int val){
 		wParent.transform.Rotate (0, 0, 10 * val);
 	}
+
+	public static string getAudioIdForColor(Color c){
+		c.a = 1; // set full alpha for comparison
+
+		string res = "Audio/";
+		if (c == Color.blue) {
+			res += "sound_clip_1";
+		} else if (c == Color.white) {
+			res += "sound_clip_2";
+		} else if (c == Color.red) {
+			res += "sound_clip_3";
+		} else if (c == Color.green) {
+			res += "sound_clip_4";
+		} else if (c == Color.yellow) {
+			res += "sound_clip_5";
+		}
+		// default
+		else {
+			res += "sound_clip_5";
+		}
+
+		return res;
+	}
 }

@@ -13,6 +13,7 @@ public class Path : MonoBehaviour {
 	Camera cam;
 	int pointCount = 0;
 	Color startColor;
+	Sound mySound;
 
 	public static void init_static(){
 		allPaths = new Dictionary<Color, List<Path>> ();
@@ -24,6 +25,9 @@ public class Path : MonoBehaviour {
 		line.SetPosition (0, startPos);
 		lastPos = startPos;
 		startColor = col;
+
+		// Start playing sound
+		mySound = AudioManager.Main.PlayNewSound(Main.getAudioIdForColor(col), true);
 
 		initialized = true;
 
@@ -63,6 +67,7 @@ public class Path : MonoBehaviour {
 			yield return new WaitForEndOfFrame ();
 		}
 
+		mySound.playing = false;
 		Destroy (gameObject);
 	}
 
