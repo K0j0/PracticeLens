@@ -42,7 +42,15 @@ public class Path : MonoBehaviour {
 
 			yield return null;
 		}
-		
+		StartCoroutine( burnDown ());
+	}
+
+	IEnumerator burnDown(){
+		while (pointCount > 0) {
+			line.SetVertexCount (--pointCount);
+
+			yield return new WaitForEndOfFrame ();
+		}
 	}
 
 	public static void startPath(Vector3 pos, Color col) {
