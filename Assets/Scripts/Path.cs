@@ -66,8 +66,8 @@ public class Path : MonoBehaviour {
 
 			// Have to be a minimum distance apart to grow path
 			if (Vector3.Distance (pos, lastPos) > .2f) {
-				line.SetVertexCount (++pointCount);
-				line.SetPosition (pointCount - 1, pos);
+                line.numPositions = ++pointCount;
+                line.SetPosition (pointCount - 1, pos);
 				lastPos = pos;
 			}
 			vfx.transform.position = lastPos;
@@ -79,9 +79,12 @@ public class Path : MonoBehaviour {
 
 	IEnumerator burnDown(){
 		while (pointCount > 0) {
-			line.SetVertexCount (--pointCount);
+			line.numPositions = --pointCount;
 
+            lastPos = line.GetPosition(pointCount-1);
 			vfx.transform.position = lastPos;
+
+            if(pointCount == 1) vfx.SetActive(false);
 
 //			yield return new WaitForEndOfFrame ();
 			yield return new WaitForSeconds (.25f);
