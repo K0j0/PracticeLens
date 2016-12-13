@@ -59,7 +59,7 @@ public class Path : MonoBehaviour {
 
 			// Stop path on color change of projected point
 			if (Main.lastColorPressed != startColor) {
-				print (">>> Color Change <<<");
+				//print (">>> Color Change <<<");
 				onSameColor = false;
 				break;
 			}

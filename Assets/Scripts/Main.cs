@@ -63,15 +63,9 @@ public class Main : MonoBehaviour {
 
 		Renderer r =  wall.AddComponent<MeshRenderer> ();
 		r.material.mainTexture = deviceCam;
+        r.receiveShadows = false;
 		Mesh m = wall.AddComponent<MeshFilter> ().mesh;
 		Vector3[] vertices = new Vector3[4];
-
-//		float w = tr.x;
-//		float h = tr.y;
-//		vertices[0] = new Vector3(bl.x, bl.y, 0);
-//		vertices[1] = new Vector3(tr.x, bl.y, 0);
-//		vertices[2] = new Vector3(bl.x, tr.y, 0);
-//		vertices[3] = new Vector3(tr.x, tr.y, 0);
 
 		/*
 		 * TEST
@@ -138,13 +132,6 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//		print (Input.acceleration.ToString("F3"));
-//		print("Gyro Update: (" + (Input.gyro.attitude.eulerAngles.ToString()));
-
-//		cube1.transform.Translate (Input.acceleration.x, 0, -Input.acceleration.z);
-//		cube2.transform.localRotation = Quaternion.Euler(Input.acceleration.z * 90, 0, Input.acceleration.x * 90);
-//		cube2.transform.localRotation = Quaternion.Euler(0, 0, Input.acceleration.x * 90);
-
 		cube2.transform.rotation = Input.gyro.attitude * baseRotation;
 		camParent.rotation = Input.gyro.attitude * baseRotation;
 
@@ -168,14 +155,14 @@ public class Main : MonoBehaviour {
 
 			Texture2D tex = rend.material.mainTexture as Texture2D;
 			Vector2 pixelUV = hit.textureCoord;
-			print ("Here 2. Hit point: " + hit.point + ". Tex coord: " + hit.textureCoord);
+			//print ("Here 2. Hit point: " + hit.point + ". Tex coord: " + hit.textureCoord);
 			pixelUV.x *= tex.width;
 			pixelUV.y *= tex.height;
 //			tex.SetPixel(, Color.black);
 //			tex.Apply();
 			Color col = tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y);
 			_lastColorPressed = col;
-			print ("Hit bubble: " + col);
+			//print ("Hit bubble: " + col);
 
 			// Make paths
 			if (!Path.isActive) {
