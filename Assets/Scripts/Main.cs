@@ -170,7 +170,15 @@ public class Main : MonoBehaviour {
 			pixelUV.y *= tex.height;
 //			tex.SetPixel(, Color.black);
 //			tex.Apply();
-			print ("Hit bubble: " + tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
+			Color col = tex.GetPixel((int)pixelUV.x, (int)pixelUV.y);
+			print ("Hit bubble: " + col);
+
+			// Make paths
+			if (!Path.isActive) {
+				Path.startPath (pos.normalized * 3, col);
+			} else {
+				Path.addToPath (pos.normalized * 3, col);
+			}
 		}
 	}
 
