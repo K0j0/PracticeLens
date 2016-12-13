@@ -150,9 +150,11 @@ public class Main : MonoBehaviour {
 			Vector3 pos = Input.touches [0].position;
 			pos = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, 90));
 
-			Debug.DrawRay (cam.transform.position, pos, Color.red, 5);
+//			Debug.DrawRay (cam.transform.position, pos, Color.red, 5); // works
+			Debug.DrawRay (pos, cam.transform.position - pos, Color.green, 5);
 			RaycastHit hit;
-			if (!Physics.Raycast(cam.ScreenPointToRay(pos), out hit))
+//			if (!Physics.Raycast(cam.ScreenPointToRay(pos), out hit)) // works
+			if (!Physics.Raycast(pos, cam.transform.position - pos, out hit)) // Inverting ray since physics won't trigger with origin within collider
 				return;
 
 //			print ("here 1");
@@ -161,14 +163,14 @@ public class Main : MonoBehaviour {
 			if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
 				return;
 
-			print ("Here 2");
 			Texture2D tex = rend.material.mainTexture as Texture2D;
 			Vector2 pixelUV = hit.textureCoord;
+			print ("Here 2. Hit point: " + hit.point + ". Tex coord: " + hit.textureCoord );
 			pixelUV.x *= tex.width;
 			pixelUV.y *= tex.height;
-			tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, Color.black);
-			tex.Apply();
-			print ("Hit bubble");
+//			tex.SetPixel(, Color.black);
+//			tex.Apply();
+			print ("Hit bubble: " + tex.GetPixel((int)pixelUV.x, (int)pixelUV.y));
 		}
 	}
 
