@@ -146,31 +146,31 @@ public class Main : MonoBehaviour {
 		camParent.rotation = Input.gyro.attitude * baseRotation;
 
 		// Input
-		if (Input.touchCount > 0) {
+		if (Input.touchCount == 1) {
 			Vector3 pos = Input.touches [0].position;
-			pos = cam.ScreenToWorldPoint(new Vector3(pos.x, pos.y, 90));
+			pos = cam.ScreenToWorldPoint (new Vector3 (pos.x, pos.y, 90));
 
 //			Debug.DrawRay (cam.transform.position, pos, Color.red, 5); // works
 			Debug.DrawRay (pos, cam.transform.position - pos, Color.green, 5);
 			RaycastHit hit;
 //			if (!Physics.Raycast(cam.ScreenPointToRay(pos), out hit)) // works
-			if (!Physics.Raycast(pos, cam.transform.position - pos, out hit)) // Inverting ray since physics won't trigger with origin within collider
+			if (!Physics.Raycast (pos, cam.transform.position - pos, out hit)) // Inverting ray since physics won't trigger with origin within collider
 				return;
 
 //			print ("here 1");
-			Renderer rend = hit.transform.GetComponent<Renderer>();
+			Renderer rend = hit.transform.GetComponent<Renderer> ();
 			Collider meshCollider = hit.collider as Collider;
 			if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
 				return;
 
 			Texture2D tex = rend.material.mainTexture as Texture2D;
 			Vector2 pixelUV = hit.textureCoord;
-			print ("Here 2. Hit point: " + hit.point + ". Tex coord: " + hit.textureCoord );
+			print ("Here 2. Hit point: " + hit.point + ". Tex coord: " + hit.textureCoord);
 			pixelUV.x *= tex.width;
 			pixelUV.y *= tex.height;
 //			tex.SetPixel(, Color.black);
 //			tex.Apply();
-			Color col = tex.GetPixel((int)pixelUV.x, (int)pixelUV.y);
+			Color col = tex.GetPixel ((int)pixelUV.x, (int)pixelUV.y);
 			print ("Hit bubble: " + col);
 
 			// Make paths
@@ -179,7 +179,8 @@ public class Main : MonoBehaviour {
 			} else {
 				Path.addToPath (pos.normalized * 3, col);
 			}
-		}
+		} else
+			Path.isActive = false;
 	}
 
 	public void ui_RotX(int val){
